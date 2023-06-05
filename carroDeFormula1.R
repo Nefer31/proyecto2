@@ -5,19 +5,22 @@ CarroDeFormula1 <- R6Class(
   inherit = Carro,
   
   public = list(
-    VELOCIDADEXTRA = 10,
+    velocidadEnLinea = NULL,
     
-    initialize = function(nombre, numero) {
+    initialize = function(nombre, numero, velocidadEnLinea) {
       super$initialize(nombre, numero)
+      self$velocidadEnLinea <- velocidadEnLinea
     },
     
     velocidadMaxima = function(carrera) {
       tipoDePista <- carrera$getTipoDePista()
-      
       super$velocidadMaxima()
+      velocidadActual <- private$getVelocidad()
+      
       if (tipoDePista == "f1") {
-        velocidadActual <- private$getVelocidad()
-        private$setVelocidad(velocidadActual + VELOCIDADEXTRA)
+        private$setVelocidad(velocidadActual + self$velocidadEnLinea)
+      }else{
+        private$setVelocidad(velocidadActual - self$velocidadEnLinea)
       }
     }
   )

@@ -1,31 +1,40 @@
-campeonato <- R6Class(
-  classname = "campeonato",
+library(R6)
+
+Campeonato <- R6Class(
+  classname = "Campeonato",
   
   private = list(
-    carreras = NULL,
-    autos = NULL
+    carreras = NULL
   ),
   
   public = list(
+    autos = NULL,
+    
     initialize = function() {
-      private$carreras <- list()
-      private$autos <- list()
+      private$carreras <- NULL
+      self$autos <- NULL
     },
     
-    inscribirAuto = function(carro) {
-      if (!(carro %in% private$autos)) {
-        private$autos <- c(private$autos, carro)
-        return(TRUE)
+    inscribirAuto = function(auto) {
+      for (i in seq_along(self$autos)) {
+        if (self$autos[[i]]$equals(auto)) {
+          cat("El auto ya está inscrito en el campeonato.\n")
+          return(FALSE)
+        }
       }
-      return(FALSE)
+      self$autos <- c(self$autos, auto)
+      return(TRUE)
     },
     
-    registrarCarrera = function(carrera) {
-      if (!(carrera %in% private$carreras)) {
-        private$carreras <- c(private$carreras, carrera)
-        return(TRUE)
+    agregarCarrera = function(carrera) {
+      for (i in seq_along(private$carreras)) {
+        if (private$carreras[[i]]$equals(carrera)) {
+          cat("La carrera ya existe en el campeonato.\n")
+          return(FALSE)
+        }
       }
-      return(FALSE)
+      private$carreras <- c(private$carreras, carrera)
+      return(TRUE)
     },
     
     iniciarCarreras = function() {
@@ -34,7 +43,7 @@ campeonato <- R6Class(
       }
     },
     
-    terminarCarrera = function() {
+    mostrarResultados = function() {
       for (i in seq_along(private$carreras)) {
         private$carreras[[i]]$registrarCarrera()
       }
@@ -44,17 +53,8 @@ campeonato <- R6Class(
       private$carreras
     },
     
-    getCarros = function() {
-      private$autos
-    },
-    
-    buscarCarro = function(nombreDelCarro) {
-      for (i in seq_along(private$autos)) {
-        if (nombreDelCarro == private$autos[[i]]$getNombre()) {
-          return(private$autos[[i]])
-        }
-      }
-      return(NULL)
+    getAutos = function() {
+      self$autos
     }
   )
 )

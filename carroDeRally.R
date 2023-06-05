@@ -5,19 +5,22 @@ CarroDeRally <- R6Class(
   inherit = Carro,
   
   public = list(
-    velocidadExtra = 10,
+    traccion = 10,
     
-    initialize = function(nombre, numero) {
+    initialize = function(nombre, numero, traccion) {
       super$initialize(nombre, numero)
+      self$traccion <- traccion
     },
     
     velocidadMaxima = function(carrera) {
       tipoDePista <- carrera$getTipoDePista()
-      
       super$velocidadMaxima()
+      velocidadActual <- private$getVelocidad()
+      
       if (tipoDePista == "rally") {
-        velocidadActual <- private$getVelocidad()
-        private$setVelocidad(velocidadActual + velocidadExtra)
+        private$setVelocidad(velocidadActual + self$traccion)
+      }else{
+        private$setVelocidad(velocidadActual - self$traccion)
       }
     }
   )

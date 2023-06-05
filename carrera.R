@@ -1,5 +1,6 @@
 library(R6)
 
+# Clase Carrera
 Carrera <- R6Class(
   classname = "Carrera",
   
@@ -25,7 +26,7 @@ Carrera <- R6Class(
     },
     
     getNombre = function() {
-      return(private$nombre)
+      private$nombre
     },
     
     setTipoDePista = function(tipoDePista) {
@@ -37,7 +38,7 @@ Carrera <- R6Class(
     },
     
     getTipoDePista = function() {
-      return(private$tipoDePista)
+      private$tipoDePista
     },
     
     agregarCarro = function(carro) {
@@ -47,11 +48,9 @@ Carrera <- R6Class(
     },
     
     iniciarCarrera = function() {
-      
       for (i in seq_along(private$carros)) {
         private$carros[[i]]$velocidadMaxima()
       }
-      
       ordenCarros <- order(sapply(private$carros, function(carro) carro$getVelocidad()), decreasing = TRUE)
       
       for (i in seq_along(private$carros)) {
@@ -80,7 +79,7 @@ Carrera <- R6Class(
     },
     
     getCarros = function() {
-     private$carros
+      private$carros
     }
   )
 )

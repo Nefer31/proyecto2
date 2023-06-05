@@ -1,14 +1,12 @@
 library(R6)
 
-carro <- R6Class(
+Carro <- R6Class(
   classname = "Carro",
   
   private = list(
     nombre = NULL,
     numero = NULL,
     posicion = 0,
-    distancia = 0,
-    tiempoTotal = 0,
     puntos = 0,
     velocidad = NULL
   ),
@@ -24,7 +22,7 @@ carro <- R6Class(
     },
     
     velocidadMaxima = function() {
-        numeroRandom <- randomNumber(1, 100)
+        numeroRandom <- self$randomNumber(1, 100)
         private$setVelocidad(numeroRandom)
     },
     
@@ -60,10 +58,18 @@ carro <- R6Class(
       return(private$velocidad)
     },
     
+    setNumero = function(numero) {
+      private$numero <- numero
+    },
+    
+    getNumero = function() {
+      return(private$numero)
+    },
+    
     equals = function(obj) {
       return(
         inherits(obj, "Carro") &&
-          private$nombre == obj$getNombre()
+          private$nombre == obj$getNombre() || private$numero == obj$getNumero()
       )
     }
   )
